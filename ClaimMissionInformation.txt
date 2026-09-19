@@ -1,0 +1,16 @@
+`YoudaGames.MonopolyPoker.MissionCollection.MissionClaimHandler` has a a method `MissionClaimHandler.ClaimMission(int, int)`
+
+`YoudaGames.MonopolyPoker.MissionCollection.MissionGroupType` has Enum mission types
+
+YoudaGames.MonopolyPoker.MissionCollection.MissionClaimResponseData:
+
+- MissionClaimResponseData.message string
+- MissionClaimResponseData.Message string
+- MissionClaimResponseData.missionId int
+- MissionClaimResponseData.missionId int
+- MissionClaimResponseData.rewards Il2CppSystem.Collections.Generic.List<MissionReward>
+- MissionClaimResponseData.Rewards Il2CppSystem.Collections.Generic.List<MissionReward>
+- MissionClaimResponseData.success bool
+- MissionClaimResponseData.Success bool
+
+YoudaGames.MonopolyPoker.MissionCollection.MissionClaimHandler

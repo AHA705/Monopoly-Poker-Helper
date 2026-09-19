@@ -1,0 +1,34 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+
+# Logs
+*.log
+
+# Debug/Release folders
+Debug/
+Release/
+
+# VS Code settings
+.vscode/
+.vs/
+
+# Other
+*.DS_Store
+Thumbs.db
+/blackjack_graph
+/Assembly-CSharp
+/Unity_Tools
+/GameAssemblyReference

@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>MonopolyPokerHelper</AssemblyName>
+    <Product>MonopolyPokerHelper</Product>
+    <Version>1.0.0</Version>
+    <GameVersion>Unknown</GameVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>MonopolyPokerHelper</RootNamespace>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<BepInExDir>C:\Program Files (x86)\Steam\steamapps\common\Monopoly Poker\BepInEx\core</BepInExDir>
+		<InteropDir>C:\Program Files (x86)\Steam\steamapps\common\Monopoly Poker\BepInEx\interop</InteropDir>
+        <PluginDeployDir>$(BepInExDir)\..\plugins\MonopolyPokerHelper</PluginDeployDir>
+	</PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+	  <Reference Include="UnityEngine.CoreModule">
+		  <HintPath>$(InteropDir)\UnityEngine.CoreModule.dll</HintPath>
+		  <Private>false</Private>
+	  </Reference>
+	  <Reference Include="Il2Cppmscorlib">
+		  <HintPath>$(InteropDir)\Il2Cppmscorlib.dll</HintPath>
+		  <Private>false</Private>
+	  </Reference>
+	  <Reference Include="Il2CppInterop.Runtime">
+		  <HintPath>$(InteropDir)\Il2CppInterop.Runtime.dll</HintPath>
+		  <Private>false</Private>
+	  </Reference>
+  </ItemGroup>
+
+  <Target Name="DeployPluginToGame" AfterTargets="Build">
+    <!-- Check if Monopoly Poker is running -->
+    <Exec Command="tasklist /FI &quot;IMAGENAME eq Monopoly Poker.exe&quot; | find /I &quot;Monopoly Poker.exe&quot;" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="PokerProcessExitCode" />
+    </Exec>
+    <Message Importance="high" Text="Skipping plugin deployment: Monopoly Poker is running. Please close the game to deploy the plugin." Condition=" '$(PokerProcessExitCode)' == '0' " />
+    <MakeDir Directories="$(PluginDeployDir)" Condition=" '$(PokerProcessExitCode)' != '0' " />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginDeployDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition=" '$(PokerProcessExitCode)' != '0' " />
+    <Copy SourceFiles="$(TargetDir)$(AssemblyName).pdb" DestinationFolder="$(PluginDeployDir)" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)$(AssemblyName).pdb') and '$(PokerProcessExitCode)' != '0'" />
+    <Message Importance="high" Text="Deployed $(AssemblyName).dll to $(PluginDeployDir)" Condition=" '$(PokerProcessExitCode)' != '0' " />
+  </Target>
+</Project>
